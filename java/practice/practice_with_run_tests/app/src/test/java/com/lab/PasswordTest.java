@@ -24,9 +24,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PasswordTest {
     private IPassword getPassword(String s) throws Exception {
-        // return (IPassword) new Password(s);
+         return (IPassword) new Password(s);
         // return (IPassword) new BugDoesNotTrim(s);
-         return (IPassword) new BugIsPasswordSameAlwaysTrue(s);
+        // return (IPassword) new BugIsPasswordSameAlwaysTrue(s);
         // return (IPassword) new BugMissingNumberCheck(s);
         // return (IPassword) new BugMissingPasswordLengthCheck(s);
         // return (IPassword) new BugToShortPassword(s);
@@ -42,13 +42,43 @@ public class PasswordTest {
 
     @Test
     public void DoesPasswordNotTrim() throws Exception {
-        assertDoesNotThrow(() -> getPassword("          ordermr123"));
+        assertThrows(Exception.class, () -> getPassword("            Example123"));
     }
 
     @Test
     public void IsPasswordAlwaysSame() throws Exception {
         var buggy = getPassword("Examplepassword123");
         var buggy2 = getPassword("Examplepass1234");
-        assertTrue(buggy.isPasswordSame(buggy2));
+        assertFalse(buggy.isPasswordSame(buggy2));
+    }
+
+    @Test
+    public void isItMissingNumbers() throws Exception {
+        assertThrows(Exception.class, () -> getPassword("Passwordmrmrmrmr"));
+    }
+
+    @Test
+    public void doesItCheckPassLength() {
+        assertThrows(Exception.class, () -> getPassword("Littlepass1"));
+    }
+
+    /**
+     * For pass < 6
+     */
+    @Test
+    public void smallerPasswordReq() {
+        assertThrows(Exception.class, () -> getPassword("Littl1"));
+    }
+
+    @Test
+    public void isTheExceptionWrong() {
+        Exception theException = assertThrows(Exception.class, () -> getPassword("Example1"));
+        
+        assertEquals("To short password", theException.getMessage());
+    }
+
+    @Test
+    public void isTheHashingWrong() {
+        
     }
 }
