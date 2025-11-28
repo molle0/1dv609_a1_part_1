@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class SwedishSocialSecurityNumberTest {
@@ -30,28 +31,30 @@ public class SwedishSocialSecurityNumberTest {
     public void isCorrectLength() throws Exception {
         SSNHelper ssnMock = mock(SSNHelper.class);
 
-        when(ssnMock.isCorrectLength("900101-0017")).thenReturn(true);
-        when(ssnMock.isCorrectFormat("900101-0017")).thenReturn(true);
-        when(ssnMock.isValidDay("01")).thenReturn(true);
-        when(ssnMock.isValidMonth("01")).thenReturn(true);
-        when(ssnMock.luhnIsCorrect("900101-0017")).thenReturn(true);
+        when(ssnMock.isCorrectLength("900101-0017")).thenReturn(false);
 
-        Exception message = assertThrows(Exception.class, () -> new SwedishSocialSecurityNumber("90010-0017", ssnMock));
+        Exception message = assertThrows(Exception.class, () -> new SwedishSocialSecurityNumber("900101-0017", ssnMock));
         assertEquals("To short, must be 11 characters", message.getMessage());
+
+        verify(ssnMock).isCorrectLength("900101-0017");
     }
 
     @Test
     public void isCorrectLuhn() throws Exception {
+        
         SSNHelper ssnMock = mock(SSNHelper.class);
 
-        when(ssnMock.isCorrectLength("9001010017")).thenReturn(true);
-        when(ssnMock.isCorrectFormat("9001010017")).thenReturn(true);
-        when(ssnMock.isValidDay("01")).thenReturn(true);
-        when(ssnMock.isValidMonth("01")).thenReturn(true);
-        when(ssnMock.luhnIsCorrect("900101-0017")).thenReturn(true);
 
-        Exception message = assertThrows(Exception.class, () -> new SwedishSocialSecurityNumber("9001010017", ssnMock));
+        when(ssnMock.isCorrectFormat("900101-0017")).thenReturn(true);
+        when(ssnMock.isCorrectLength("900101-0017")).thenReturn(true);
+        when(ssnMock.isValidMonth("01")).thenReturn(true);
+        when(ssnMock.isValidDay("01")).thenReturn(true);
+        when(ssnMock.luhnIsCorrect("900101-0017")).thenReturn(false);
+
+        Exception message = assertThrows(Exception.class, () -> new SwedishSocialSecurityNumber("900101-0017", ssnMock));
         assertEquals("Invalid SSN according to Luhn's algorithm", message.getMessage());
+
+        verify(ssnMock).isCorrectFormat("900101-0017");
     }
 
     @Test
@@ -66,6 +69,11 @@ public class SwedishSocialSecurityNumberTest {
 
         assertDoesNotThrow(() -> new SwedishSocialSecurityNumber("     900101-0017", ssnMock));
 
+        verify(ssnMock).isCorrectLength("900101-0017");
+        verify(ssnMock).isCorrectFormat("900101-0017");
+        verify(ssnMock).isValidMonth("01");
+        verify(ssnMock).isValidDay("01");
+        verify(ssnMock).luhnIsCorrect("900101-0017");
     }
 
     @Test
@@ -74,13 +82,19 @@ public class SwedishSocialSecurityNumberTest {
 
         when(ssnMock.isCorrectLength("900101-0017")).thenReturn(true);
         when(ssnMock.isCorrectFormat("900101-0017")).thenReturn(true);
-        when(ssnMock.isValidDay("01")).thenReturn(true);
         when(ssnMock.isValidMonth("01")).thenReturn(true);
+        when(ssnMock.isValidDay("01")).thenReturn(true);
         when(ssnMock.luhnIsCorrect("900101-0017")).thenReturn(true);
         
         SwedishSocialSecurityNumber yearCheck = new SwedishSocialSecurityNumber("900101-0017", ssnMock);
 
         assertEquals("90", yearCheck.getYear());
+
+        verify(ssnMock).isCorrectLength("900101-0017");
+        verify(ssnMock).isCorrectFormat("900101-0017");
+        verify(ssnMock).isValidMonth("01");
+        verify(ssnMock).isValidDay("01");
+        verify(ssnMock).luhnIsCorrect("900101-0017");
     }
 
     @Test
