@@ -58,27 +58,26 @@ public class PasswordTest {
     }
 
     @Test
-    public void doesItCheckPassLength() {
+    public void doesItCheckPassLength() throws Exception {
         assertThrows(Exception.class, () -> getPassword("Littlepass1"));
     }
 
-    /**
-     * For pass < 6
-     */
     @Test
-    public void smallerPasswordReq() {
+    public void smallerPasswordReq() throws Exception {
         assertThrows(Exception.class, () -> getPassword("Littl1"));
     }
 
     @Test
-    public void isTheExceptionWrong() {
+    public void isTheExceptionWrong() throws Exception {
         Exception theException = assertThrows(Exception.class, () -> getPassword("Example1"));
         
         assertEquals("To short password", theException.getMessage());
     }
 
     @Test
-    public void isTheHashingWrong() {
-        
+    public void isTheHashingWrong() throws Exception {
+        IPassword cHash = new Password("Examplepassword123");
+        var wrongHash = getPassword("Examplepassword123");
+        assertEquals(cHash.getPasswordHash(), wrongHash.getPasswordHash());
     }
 }

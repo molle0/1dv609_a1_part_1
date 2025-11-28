@@ -8,6 +8,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id 'jacoco'
 }
 
 repositories {
@@ -50,3 +51,13 @@ tasks.named('test') {
         showStandardStreams = true
     }
 }
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+    }
+}
+
+check.dependsOn jacocoTestReport
