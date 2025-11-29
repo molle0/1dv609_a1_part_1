@@ -62,3 +62,15 @@ Create a table like this one for all the bugs and Tests, showing which test fail
 
 
 
+
+| Method                             | Password | BugDoesNotTrim | BugIsPasswordSameAlwaysTrue | BugMissingNumberCheck | BugMissingPasswordLengthCheck | BugToShortPassword | BugVeryShort | BugWrongExceptionMessage | BugWrongHashingAlgorithm   | CustomBugExceptionSpellingError |
+|------------------------------------|---------|----------------|----------------------------|----------------------|-------------------------------|------------------|--------------|-------------------------|----------------------------------|---------------------------------|
+| shouldAlwaysPass                   | ✅      | ✅            | ✅                          | ✅                    | ✅                             | ✅                | ✅            | ✅                       | ✅                    | ✅                             |
+| shouldTrimPassword                 | ✅      | ❌            | ✅                          | ✅                    | ❌                             | ✅                | ❌            | ✅                       | ✅                    | ✅                             |
+| shouldRejectNotSamePasswords       | ✅      | ✅            | ❌                          | ✅                    | ✅                             | ✅                | ✅            | ✅                       | ✅                    | ✅                             |
+| shouldRejectPasswordWithoutNumber  | ✅      | ✅            | ✅                          | ❌                    | ✅                             | ✅                | ✅            | ✅                       | ✅                    | ✅                             |
+| shouldThrowToShortMessage          | ✅      | ✅            | ✅                          | ✅                    | ❌                             | ❌                | ❌            | ✅                       | ✅                    | ✅                             |
+| shouldRejectVeryShortPassword      | ✅      | ✅            | ✅                          | ✅                    | ❌                             | ✅                | ❌            | ✅                       | ✅                    | ✅                             |
+| shouldThrowCorrectException        | ✅      | ✅            | ✅                          | ✅                    | ❌                             | ✅                | ❌            | ❌                       | ✅                    | ❌                             |
+| shouldUseCorrectHashing            | ✅      | ✅            | ✅                          | ✅                    | ✅                             | ✅                | ✅            | ✅                       | ❌                    | ✅                             |
+| Coverage                           | 97%      | 97%           | 100%                         | 96%                  | 96%                            | 97%              | 87%           | 97%                     | 97%                   | 97%                             |

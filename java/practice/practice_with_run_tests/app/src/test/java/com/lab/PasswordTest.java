@@ -33,6 +33,7 @@ public class PasswordTest {
         // return (IPassword) new BugVeryShort(s);
         // return (IPassword) new BugWrongExceptionMessage(s);
         // return (IPassword) new BugWrongHashingAlgorithm(s);
+        // return (IPassword) new CustomBugExceptionSpellingError(s);
     }
 
     @Test
@@ -41,43 +42,42 @@ public class PasswordTest {
     }
 
     @Test
-    public void DoesPasswordNotTrim() throws Exception {
+    public void shouldTrimPassword() throws Exception {
         assertThrows(Exception.class, () -> getPassword("            Example123"));
     }
 
     @Test
-    public void IsPasswordAlwaysSame() throws Exception {
+    public void shouldRejectNotSamePasswords() throws Exception {
         var buggy = getPassword("Examplepassword123");
         var buggy2 = getPassword("Examplepass1234");
         assertFalse(buggy.isPasswordSame(buggy2));
     }
 
     @Test
-    public void isItMissingNumbers() throws Exception {
+    public void shouldRejectPasswordWithoutNumber() throws Exception {
         assertThrows(Exception.class, () -> getPassword("Passwordmrmrmrmr"));
     }
 
     @Test
-    public void doesItCheckPassLength() throws Exception {
+    public void shouldThrowToShortMessage() throws Exception {
         assertThrows(Exception.class, () -> getPassword("Littlepass1"));
     }
 
     @Test
-    public void smallerPasswordReq() throws Exception {
+    public void shouldRejectVeryShortPassword() throws Exception {
         assertThrows(Exception.class, () -> getPassword("Littl1"));
     }
 
     @Test
-    public void isTheExceptionWrong() throws Exception {
+    public void shouldThrowCorrectException() throws Exception {
         Exception theException = assertThrows(Exception.class, () -> getPassword("Example1"));
         
         assertEquals("To short password", theException.getMessage());
     }
 
     @Test
-    public void isTheHashingWrong() throws Exception {
-        IPassword cHash = new Password("Examplepassword123");
+    public void shouldUseCorrectHashing() throws Exception {
         var wrongHash = getPassword("Examplepassword123");
-        assertEquals(cHash.getPasswordHash(), wrongHash.getPasswordHash());
+        assertEquals(-228824460, wrongHash.getPasswordHash());
     }
 }

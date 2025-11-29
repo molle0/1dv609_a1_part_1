@@ -19,13 +19,27 @@ public class SwedishSocialSecurityNumberTest {
     
     @Test
     public void shouldAcceptValidSSN() throws Exception {
-        SwedishSocialSecurityNumber ssn = new SwedishSocialSecurityNumber("900101-0017", helper);
+        SSNHelper ssnMock = mock(SSNHelper.class);
+
+        when(ssnMock.isCorrectLength("900101-0017")).thenReturn(true);
+        when(ssnMock.isCorrectFormat("900101-0017")).thenReturn(true);
+        when(ssnMock.isValidDay("01")).thenReturn(true);
+        when(ssnMock.isValidMonth("01")).thenReturn(true);
+        when(ssnMock.luhnIsCorrect("900101-0017")).thenReturn(true);
         
+        SwedishSocialSecurityNumber ssn = new SwedishSocialSecurityNumber("900101-0017", ssnMock);
+
         assertEquals("90", ssn.getYear());
         assertEquals("01", ssn.getMonth());
         assertEquals("01", ssn.getDay());
         assertEquals("0017", ssn.getSerialNumber());
-    }
+
+        verify(ssnMock).isCorrectLength("900101-0017");
+        verify(ssnMock).isCorrectFormat("900101-0017");
+        verify(ssnMock).isValidMonth("01");
+        verify(ssnMock).isValidDay("01");
+        verify(ssnMock).luhnIsCorrect("900101-0017");
+    }   
 
     @Test
     public void isCorrectLength() throws Exception {

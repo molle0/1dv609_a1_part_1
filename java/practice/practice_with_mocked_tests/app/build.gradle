@@ -8,6 +8,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id 'jacoco'
 }
 
 repositories {
@@ -17,6 +18,7 @@ repositories {
 
 dependencies {
     // Use JUnit Jupiter for testing.
+    testImplementation libs.junit.jupiter
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
     testImplementation 'org.mockito:mockito-core:5.3.1'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.3.1'
@@ -55,3 +57,13 @@ tasks.named('test') {
         showStandardStreams = true
     }
 }
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+    }
+}
+
+check.dependsOn jacocoTestReport
