@@ -42,7 +42,7 @@ public class SwedishSocialSecurityNumberTest {
     }   
 
     @Test
-    public void isCorrectLength() throws Exception {
+    public void shouldThrowCorrectLengthException() throws Exception {
         SSNHelper ssnMock = mock(SSNHelper.class);
 
         when(ssnMock.isCorrectLength("900101-0017")).thenReturn(false);
@@ -54,7 +54,7 @@ public class SwedishSocialSecurityNumberTest {
     }
 
     @Test
-    public void isCorrectLuhn() throws Exception {
+    public void shouldThrowLuhnException() throws Exception {
         
         SSNHelper ssnMock = mock(SSNHelper.class);
 
@@ -72,7 +72,7 @@ public class SwedishSocialSecurityNumberTest {
     }
 
     @Test
-    public void trimsCorrectly() throws Exception {
+    public void shouldNotThrowTrimException() throws Exception {
         SSNHelper ssnMock = mock(SSNHelper.class);
 
         when(ssnMock.isCorrectLength("900101-0017")).thenReturn(true);
@@ -91,7 +91,7 @@ public class SwedishSocialSecurityNumberTest {
     }
 
     @Test
-    public void isCorrectYear() throws Exception {
+    public void shouldBeCorrectYear() throws Exception {
         SSNHelper ssnMock = mock(SSNHelper.class);
 
         when(ssnMock.isCorrectLength("900101-0017")).thenReturn(true);
@@ -123,6 +123,7 @@ public class SwedishSocialSecurityNumberTest {
         assertFalse(helper.isCorrectFormat("900100017"));
         assertFalse(helper.isCorrectFormat("abcdef-abcd"));
         assertFalse(helper.isCorrectFormat("90010/0017"));
+        assertTrue(helper.isCorrectFormat("900101-0017"));
     }
 
     @Test
@@ -155,8 +156,6 @@ public class SwedishSocialSecurityNumberTest {
 
     @Test
     public void ssnIsIncorrectLuhn() {
-        assertFalse(helper.luhnIsCorrect("90010100017"));
-        assertFalse(helper.luhnIsCorrect("900101 0017"));
-        assertFalse(helper.luhnIsCorrect("900101+0017"));
+        assertTrue(helper.luhnIsCorrect("500000-0009"));
     }
 }

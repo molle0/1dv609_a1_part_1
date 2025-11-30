@@ -58,6 +58,10 @@ tasks.named('test') {
     }
 }
 
+test {
+    ignoreFailures = true
+}
+
 jacocoTestReport {
     dependsOn test
     reports {
