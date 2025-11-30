@@ -52,5 +52,18 @@ A bug in the SwedishSecurityNumber must not fail due to a bug in SSNHelper.
 | Coverage |  | 100% | 100% | 100% | | |
 
 
-
-
+| Method                          | AllowDayUpTo30 | AllowMonth0 | IncorrectFormat | IncorrectFormatFalse | MessyLuhn | WrongLength | BSSSNNoLenCheck | BSSSNNoLuhn | BSSSNNoTrim | BSSSNWrongYear | SSN | SweSSN |
+|---------------------------------|----------------|------------|----------------|--------------------|-----------|------------|----------------|------------|------------|----------------|-----|--------|
+| shouldAcceptValidSSN             | ✅             | ✅         | ✅              | ✅                  | ✅        | ✅         | ✅              | ✅         | ✅         | ✅              | ✅    |  ✅      |
+| shouldThrowCorrectLengthException| ✅             | ✅         | ✅              | ✅                  | ✅        | ✅         | ❌              | ✅         | ✅         | ✅              |  ✅   |   ✅     |
+| shouldThrowLuhnException         | ✅             | ✅         | ✅              | ✅                  | ✅        | ✅         | ✅              | ❌         | ✅         | ✅              |  ✅   |  ✅      |
+| shouldNotThrowTrimException      | ✅             | ✅         | ✅              | ✅                  | ✅        | ✅         | ✅              | ✅         | ❌         | ✅              |  ✅   |  ✅      |
+| shouldBeCorrectYear              | ✅             | ✅         | ✅              | ✅                  | ✅        | ✅         | ✅              | ✅         | ✅         | ❌              |  ✅   |  ✅      |
+| ssnIsIncorrectLength             | ✅             | ❌         | ✅              | ✅                  | ✅        | ❌         | ✅              | ✅         | ✅         | ✅              |  ✅   |  ✅      |
+| ssnIsIncorrectFormat             | ✅             | ✅         | ❌              | ❌                  | ✅        | ✅         | ✅              | ✅         | ✅         | ✅              |  ✅   |   ✅     |
+| ssnIsInvalidDay                  | ❌             | ✅         | ✅              | ✅                  | ✅        | ✅         | ✅              | ✅         | ✅         | ✅              |  ✅   |  ✅      |
+| ssnIsValidDay                    | ✅             | ✅         | ✅              | ✅                  | ✅        | ✅         | ✅              | ✅         | ✅         | ✅              |  ✅   |  ✅      |
+| ssnIsInvalidMonth                | ✅             | ❌         | ✅              | ✅                  | ✅        | ✅         | ✅              | ✅         | ✅         | ✅              |  ✅   |   ✅     |
+| ssnIsValidMonth                  | ✅             | ✅         | ✅              | ✅                  | ✅        | ✅         | ✅              | ✅         | ✅         | ✅              |  ✅   |    ✅    |
+| ssnIsIncorrectLuhn               | ✅             | ✅         | ✅              | ✅                  | ❌        | ✅         | ✅              | ✅         | ✅         | ✅              |  ✅   |    ✅    |
+| Coverage                         | 96%            | 98%        | 96%             | 96%                 | 95%       | 98%        | 83%             | 76%        | 78%        | 72%             | 97% | 79%    |
